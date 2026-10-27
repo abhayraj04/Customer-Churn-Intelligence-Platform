@@ -321,7 +321,7 @@ elif section == "B. Exploratory Analytics":
         with col2:
             st.subheader("Monthly Charges Distribution")
             fig, ax = plt.subplots(figsize=(6, 4))
-            sns.boxplot(data=raw_df, x="Churn", y="MonthlyCharges", palette={"No": "#2b5c8f", "Yes": "#d95f02"}, ax=ax)
+            sns.boxplot(data=raw_df, x="Churn", y="MonthlyCharges", hue="Churn", palette={"No": "#2b5c8f", "Yes": "#d95f02"}, legend=False, ax=ax)
             ax.set_ylabel("Monthly Charges ($)")
             st.pyplot(fig)
             plt.close(fig)
@@ -438,6 +438,39 @@ elif section == "C. Customer Risk Scoring":
         with sim_c2:
             st.metric("Add TechSupport + Security", f"{prob_support*100:.1f}%", f"{(prob_support - pred_prob)*100:.1f}%", delta_color="inverse")
 
+        # Live Real-Time SHAP Waterfall Attribution for this customer
+        st.markdown("---")
+        st.subheader("🔬 Local SHAP Factor Attribution")
+        st.caption("Game-theoretic decomposition of exact drivers pushing this customer toward or away from churn.")
+        try:
+            import shap
+            fe = pipeline.named_steps["feature_engineer"]
+            prep = pipeline.named_steps["preprocessor"]
+            clf = pipeline.named_steps["classifier"]
+
+            x_eng = fe.transform(df_single)
+            x_tf = prep.transform(x_eng)
+            feature_names = list(prep.get_feature_names_out())
+
+            explainer = shap.TreeExplainer(clf)
+            shap_values = explainer.shap_values(x_tf)
+            base_val = float(explainer.expected_value)
+
+            shap_exp = shap.Explanation(
+                values=shap_values[0],
+                base_values=base_val,
+                data=x_tf[0],
+                feature_names=feature_names
+            )
+            fig_shap = plt.figure(figsize=(9, 4.5))
+            shap.waterfall_plot(shap_exp, max_display=8, show=False)
+            plt.title(f"Individual Factor Attribution (Log-Odds Impact)", fontsize=11, fontweight="bold")
+            plt.tight_layout()
+            st.pyplot(fig_shap)
+            plt.close(fig_shap)
+        except Exception as shap_err:
+            st.info(f"Local SHAP attribution preview: {shap_err}")
+
 
 # ==============================================================================
 # SECTION D: COHORT EXPLORER
@@ -468,7 +501,7 @@ elif section == "D. Cohort Explorer":
         with cohort_col3:
             st.metric("Avg Monthly Charges", f"${filtered_df['MonthlyCharges'].mean():.2f}")
 
-        st.dataframe(filtered_df[["customerID", "Contract", "tenure", "MonthlyCharges", "PaymentMethod", "Churn"]].head(100), use_container_width=True)
+        st.dataframe(filtered_df[["customerID", "Contract", "tenure", "MonthlyCharges", "PaymentMethod", "Churn"]].head(100), width="stretch")
 
         csv = filtered_df.to_csv(index=False).encode("utf-8")
         st.download_button("Download Filtered Cohort CSV", data=csv, file_name="churn_cohort_export.csv", mime="text/csv")
@@ -582,7 +615,7 @@ elif section == "F. Model Performance & Benchmark":
             "F1 @ Threshold": 0.0000
         }
     ])
-    st.dataframe(comp_df, use_container_width=True)
+    st.dataframe(comp_df, width="stretch")
 
     st.markdown("---")
     st.subheader("Visual Evaluation Artifacts")
@@ -682,7 +715,7 @@ elif section == "H. Batch Customer Prediction":
                 with b_c3:
                     st.metric("Low Risk Accounts", f"{(out_df['Risk_Tier']=='LOW RISK').sum():,}")
 
-                st.dataframe(out_df.head(50), use_container_width=True)
+                st.dataframe(out_df.head(50), width="stretch")
 
                 out_csv = out_df.to_csv(index=False).encode("utf-8")
                 st.download_button(
