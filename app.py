@@ -60,109 +60,122 @@ st.markdown("""
     
     /* Top Header Hero */
     .hero-banner {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border-radius: 12px;
         padding: 24px 28px;
         color: #f8fafc;
         margin-bottom: 24px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         border: 1px solid #334155;
     }
     .hero-banner h1 {
-        color: #ffffff;
+        color: #ffffff !important;
         font-size: 1.85rem;
         font-weight: 700;
         margin: 0 0 6px 0;
         letter-spacing: -0.02em;
     }
     .hero-banner p {
-        color: #94a3b8;
+        color: #cbd5e1 !important;
         font-size: 0.95rem;
         margin: 0;
     }
     
-    /* Custom KPI Cards */
+    /* Custom KPI Cards - Dark Theme Compatible */
     .kpi-card {
-        background: #ffffff;
+        background: #1e293b;
         border-radius: 10px;
         padding: 16px 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #334155;
         border-left: 4px solid #3b82f6;
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
     .kpi-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     }
     .kpi-title {
-        color: #64748b;
-        font-size: 0.82rem;
+        color: #94a3b8;
+        font-size: 0.80rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.05em;
         margin-bottom: 6px;
     }
     .kpi-value {
-        color: #0f172a;
+        color: #f8fafc;
         font-size: 1.75rem;
         font-weight: 700;
         line-height: 1.2;
     }
     .kpi-subtitle {
-        color: #94a3b8;
+        color: #64748b;
         font-size: 0.8rem;
         margin-top: 4px;
     }
 
     /* Risk Badges */
     .badge-high {
-        background-color: #fee2e2;
-        color: #991b1b;
-        padding: 4px 12px;
+        background-color: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        padding: 4px 14px;
         border-radius: 9999px;
         font-size: 0.85rem;
         font-weight: 700;
         display: inline-block;
-        border: 1px solid #fecaca;
+        border: 1px solid rgba(239, 68, 68, 0.4);
     }
     .badge-mod {
-        background-color: #fef3c7;
-        color: #92400e;
-        padding: 4px 12px;
+        background-color: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+        padding: 4px 14px;
         border-radius: 9999px;
         font-size: 0.85rem;
         font-weight: 700;
         display: inline-block;
-        border: 1px solid #fde68a;
+        border: 1px solid rgba(245, 158, 11, 0.4);
     }
     .badge-low {
-        background-color: #dcfce7;
-        color: #166534;
-        padding: 4px 12px;
+        background-color: rgba(16, 185, 129, 0.2);
+        color: #34d399;
+        padding: 4px 14px;
         border-radius: 9999px;
         font-size: 0.85rem;
         font-weight: 700;
         display: inline-block;
-        border: 1px solid #bbf7d0;
+        border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
     /* Action Card */
     .action-box {
-        background-color: #f8fafc;
+        background-color: #1e293b;
         border-radius: 8px;
         padding: 16px;
-        border-left: 4px solid #0284c7;
-        border-top: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
+        border-left: 4px solid #38bdf8;
+        border-top: 1px solid #334155;
+        border-right: 1px solid #334155;
+        border-bottom: 1px solid #334155;
         margin-top: 12px;
     }
 
-    /* Sidebar tweaks */
-    [data-testid="stSidebar"] {
-        background-color: #f8fafc;
-        border-right: 1px solid #e2e8f0;
+    /* Clean Sidebar Radio Items */
+    div[data-testid="stSidebar"] [data-testid="stRadio"] label {
+        display: flex !important;
+        align-items: center !important;
+        padding: 8px 12px !important;
+        border-radius: 8px !important;
+        margin-bottom: 4px !important;
+        cursor: pointer !important;
+        transition: background-color 0.15s ease !important;
+    }
+    div[data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    div[data-testid="stSidebar"] [data-testid="stRadio"] label div[data-testid="stMarkdownContainer"] p {
+        font-size: 0.92rem !important;
+        font-weight: 500 !important;
+        color: #e2e8f0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -240,8 +253,8 @@ with st.sidebar:
         <div style='display:flex; align-items:center; gap:10px; margin-bottom:12px;'>
             <span style='font-size:26px;'>💎</span>
             <div>
-                <div style='font-weight:700; font-size:16px; color:#0f172a;'>Churn Intelligence</div>
-                <div style='font-size:12px; color:#64748b;'>Enterprise ML Platform</div>
+                <div style='font-weight:700; font-size:16px; color:#f8fafc;'>Churn Intelligence</div>
+                <div style='font-size:12px; color:#94a3b8;'>Enterprise ML Platform</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -541,18 +554,18 @@ elif section == "🎯 Customer Risk Scoring":
 
         # Probability Progress Display
         st.markdown(f"""
-            <div style='background:#f8fafc; border-radius:10px; padding:18px; border:1px solid #e2e8f0; margin-bottom:14px;'>
+            <div style='background:#1e293b; border-radius:10px; padding:18px; border:1px solid #334155; margin-bottom:14px;'>
                 <div style='display:flex; justify-content:space-between; align-items:center;'>
                     <div>
-                        <div style='font-size:0.85rem; color:#64748b; font-weight:600;'>PREDICTED PROBABILITY</div>
-                        <div style='font-size:2.2rem; font-weight:800; color:#0f172a;'>{pred_prob*100:.1f}%</div>
+                        <div style='font-size:0.85rem; color:#94a3b8; font-weight:600;'>PREDICTED PROBABILITY</div>
+                        <div style='font-size:2.2rem; font-weight:800; color:#f8fafc;'>{pred_prob*100:.1f}%</div>
                     </div>
                     <div>{badge_html}</div>
                 </div>
-                <div style='background:#e2e8f0; border-radius:9999px; height:8px; width:100%; margin-top:8px;'>
+                <div style='background:#334155; border-radius:9999px; height:8px; width:100%; margin-top:8px;'>
                     <div style='background:{gauge_color}; border-radius:9999px; height:8px; width:{min(100, int(pred_prob*100))}%;'></div>
                 </div>
-                <div style='font-size:0.75rem; color:#94a3b8; margin-top:6px;'>Decision Threshold: <strong>{optimal_threshold:.2f}</strong></div>
+                <div style='font-size:0.75rem; color:#64748b; margin-top:6px;'>Decision Threshold: <strong>{optimal_threshold:.2f}</strong></div>
             </div>
         """, unsafe_allow_html=True)
 
